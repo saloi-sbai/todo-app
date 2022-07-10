@@ -38,23 +38,21 @@ if (isset($_POST["ajouter"])) {
     }
 }
 
-//&& isset($_POST["task_id"])
 if (isset($_POST["edit"])) {
     echo "edit ";
-
     // on envoie à la page edit.php la variable task_id, en la mettant dans la session ($session)
-    $_SESSION["task_id"] = htmlentities($_POST["task_id"]);
+    $_SESSION["task_id"] = $_POST["task_id"];
     header("Location: edit.php");
     return;
 }
 
 if (isset($_POST["delete"])) {
     echo "delete ";
-    $task_id = $_POST["task_id"];
+
     $deleteQuery = "DELETE FROM tasks WHERE task_id = :task_id";
     $query = $pdo->prepare($deleteQuery);
     $query->execute([
-        ":task_id" => $task_id
+        ":task_id" => $_POST["task_id"]
     ]);
     $_SESSION["success"] = "Tache supprimée avec succes";
     header("Location: app.php");
@@ -71,69 +69,62 @@ if (isset($_POST["delete"])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="app.css">
+
     <title>app</title>
 </head>
 
 <body>
-    <?php
-    if (isset($_SESSION["error"])) {
-        echo "<small style='color: red'>{$_SESSION["error"]}</small>";
-        unset($_SESSION["error"]);
-    }
-    if (isset($_SESSION["success"])) {
-        echo "<small style='color: green'>{$_SESSION["success"]}</small>";
-        unset($_SESSION["success"]);
-    }
-    ?>
-    <nav>
-        <a href="logout.php"> se deconnecter</a>
-    </nav>
-    <h1>Tache a faire</h1>
-    <div>
-        <h1>Ajouter une nouvelle tache</h1>
-        <form method="POST">
-            <input type="text" name="task">
-        
-            <button type="submit" name="ajouter">Ajouter</button>
-        </form>
-    </div>
-
-    <div>
-        <h1>Liste des taches à faire</h1>
-        <!-- <?php
-                //if (isset($result)) {
-                //    echo "<h3>Vous n'avez aucune tache active</h3>";
-                /*
-                    {
-            echo $value["task_id"];
-            echo $value["title"];
+    <div class="container">
+        <?php
+        if (isset($_SESSION["error"])) {
+            echo "<small style='color: red'>{$_SESSION["error"]}</small>";
+            unset($_SESSION["error"]);
         }
-                */
-                //}
-                ?> -->
-        <?php
-        foreach ($result as $value) {
-        ?>
-
-            <tr>
-                <td><?php $task_id = $value['task_id'] ?></td>
-                <td><?php echo $value['title'] ?></td>
-                <td colspan="2">
-                    <center>
-                        <form method="POST">
-                            <input type="hidden" name="task_id" value="<?php echo $task_id ?>">
-                            <button class="btn btn-success" type="submit" name="edit">edit</button>
-                            <button class="btn btn-success" type="submit" name="delete">Delete</button>
-                        </form>
-                    </center>
-                </td>
-            </tr>
-
-        <?php
+        if (isset($_SESSION["success"])) {
+            echo "<small style='color: green'>{$_SESSION["success"]}</small>";
+            unset($_SESSION["success"]);
         }
         ?>
-        </table>
+        <nav>
+            <button class="btn btn-outline-secondary btn-sm">
+                <a href="logout.php"> se deconnecter</a>
+
+            </button>
+
+        </nav>
+        <h1>Mes tache a faire</h1>
+        <div class="new-task">
+            <form method="POST">
+                <input type="text" name="task" placeholder="Ajouter une nouvelle tache">
+                <button class="btn btn-outline-success btn-sm" type="submit" name="ajouter">Ajouter</button>
+            </form>
+        </div>
+
+        <div class="task-list">
+            <h3>Liste des taches à faire</h3>
+            <hr>
+            <?php
+            foreach ($result as $value) {
+            ?>
+                <div class="rows">
+                    <form method="POST">
+                        <input type="hidden" name="task_id" value="<?php echo $value['task_id'] ?>">
+                        <input type="text" name="title" value="<?php echo $value['title'] ?>">
+
+                        <button class="btn btn-outline-secondary btn-sm" type="submit" name="edit">edit</button>
+                        <button class="btn btn-outline-danger btn-sm" type="submit" name="delete">Delete</button>
+                    </form>
+                </div>
+            <?php
+            }
+            ?>
+        </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
 </body>
+
 
 </html>
