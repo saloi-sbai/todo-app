@@ -60,14 +60,14 @@ if (isset($_POST["login"])) {
         <form method="post">
             <div>
                 <label for="name">nom d'utilisateur :</label>
-                <input type="text" name="name" id="name">
+                <input type="text" name="name" id="name" required>
             </div>
             <div>
                 <label for="password">mot de passe :</label>
-                <input type="password" name="password" id="password">
+                <input type="password" name="password" id="password" required>
             </div>
             <div class="connexion">
-                <input type="submit" name="login" value="connecter">
+                <input type="submit" name="login" value="connecter" required>
                 <a href="./index.php">annuler</a>
             </div>
 

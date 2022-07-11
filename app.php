@@ -97,7 +97,7 @@ if (isset($_POST["delete"])) {
         <h1>Mes tache a faire</h1>
         <div class="new-task">
             <form method="POST">
-                <input type="text" name="task" placeholder="Ajouter une nouvelle tache">
+                <input type="text" name="task" placeholder="Ajouter une nouvelle tache" required>
                 <button class="btn btn-outline-success btn-sm" type="submit" name="ajouter">Ajouter</button>
             </form>
         </div>

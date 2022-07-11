@@ -71,23 +71,23 @@ if (isset($_POST["register"])) {
                 unset($_SESSION["error"]);
             }
             ?>
-            
-    <form method="POST">
-        <div>
-            <label for="name">nom d'utilisateur :</label>
-            <input type="text" name="name" id="name">
-        </div>
-        <div>
-            <label for="password">mot de passe :</label>
-            <input type="password" name="password" id="password">
-        </div>
-        <div>
-            <label for="confirmPassword">confirmer le mot de passe :</label>
-            <input type="password" name="confirmPassword" id="confirmPassword">
-        </div>
-        <input type="submit" name="register" value="s'enregister">
-        <a href="./index.php">annuler</a>
-    </form>
+
+            <form method="POST">
+                <div>
+                    <label for="name">nom d'utilisateur :</label>
+                    <input type="text" name="name" id="name" required>
+                </div>
+                <div>
+                    <label for="password">mot de passe :</label>
+                    <input type="password" name="password" id="password" required>
+                </div>
+                <div>
+                    <label for="confirmPassword">confirmer le mot de passe :</label>
+                    <input type="password" name="confirmPassword" id="confirmPassword" required>
+                </div>
+                <input type="submit" name="register" value="s'enregister">
+                <a href="./index.php">annuler</a>
+            </form>
 </body>
 
 </html>
